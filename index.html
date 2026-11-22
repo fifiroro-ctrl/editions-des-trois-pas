@@ -64,6 +64,10 @@ nav a{text-decoration:none;padding:8px 0}nav a:hover{text-decoration:underline}
 .j .age,.j .btn{background:var(--jaune);color:#2A1F00}.j h2{color:var(--jaune-f)}
 .v .age,.v .btn{background:var(--vert)}.v h2{color:var(--vert-f)}
 .n .age,.n .btn{background:var(--nuit)}.n h2{color:var(--nuit-f)}
+.pq{display:grid;grid-template-columns:160px minmax(0,1fr);gap:clamp(20px,4vw,48px);align-items:start;max-width:860px}
+.pq-steps{width:160px;height:80px;margin-top:6px}
+.pq p{margin:14px 0 0;max-width:62ch}.pq-lead{font-size:clamp(19px,2.2vw,22px);font-style:italic;color:var(--vert-f)}
+@media(max-width:600px){.pq{grid-template-columns:minmax(0,1fr)}.pq-steps{width:110px;height:55px}}
 /* auteur et contact */
 .duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
 .card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:clamp(20px,3vw,32px)}
@@ -93,7 +97,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 2
       Éditions des Trois Pas
     </a>
     <nav aria-label="Sections">
-      <a href="#aventures">Aventures</a><a href="#contes">Contes</a><a href="#enquetes">Enquêtes</a><a href="#auteur">L'auteur</a><a href="#contact">Contact</a>
+      <a href="#aventures">Aventures</a><a href="#contes">Contes</a><a href="#enquetes">Enquêtes</a><a href="#trois-pas">Les Trois Pas</a><a href="#auteur">L'auteur</a><a href="#contact">Contact</a>
     </nav>
   </div>
 </header>
@@ -169,11 +173,25 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 2
   </div>
 </section>
 
+<section class="band coll pourquoi" id="trois-pas">
+  <div class="wrap">
+    <div class="pq">
+      <svg class="pq-steps" viewBox="0 0 120 60" aria-hidden="true"><ellipse cx="18" cy="48" rx="15" ry="7" fill="#F2B705"/><ellipse cx="60" cy="32" rx="15" ry="7" fill="#3E7D4F"/><ellipse cx="102" cy="14" rx="15" ry="7" fill="#1E2C4F"/></svg>
+      <div>
+        <h2>Pourquoi les Trois Pas ?</h2>
+        <p class="pq-lead">On ne grandit pas d'un seul coup. On grandit pas à pas.</p>
+        <p>Le premier pas, c'est celui qu'on fait en tremblant, quand tout le monde nous trouve trop petit. Le deuxième, c'est celui qu'on fait quand on a envie de faire demi-tour. Le troisième, c'est celui après lequel on se retourne et on s'aperçoit qu'on a fait un long chemin.</p>
+        <p>Nos trois collections suivent ce chemin : les aventures de Ruby dès&nbsp;5&nbsp;ans, les contes dès&nbsp;7&nbsp;ans, les enquêtes de Lantern Bay dès&nbsp;9&nbsp;ans. Trois pas pour accompagner les enfants, de la première histoire lue ensemble au roman qu'on dévore tout seul.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="band coll">
   <div class="wrap duo">
     <div class="card" id="auteur">
       <h2>R. K. Douglas</h2>
-      <p>R. K. Douglas écrit des histoires pour aider les enfants à apprivoiser leurs peurs et leurs émotions : la peur du noir, celle de l'eau, celle de ne pas être à la hauteur, l'envie de tout garder pour soi.</p>
+      <p>R. K. Douglas écrit des histoires comme on transmet un héritage. Il y glisse un peu de la sagesse des contes d'autrefois, la force tranquille des enfants qui osent avancer malgré leurs peurs et la beauté des choses simples : un phare dans la nuit, une graine qui s'allume, un galet tiède au creux de la main.</p>
       <p>Chaque livre se lit seul ou à deux. Les plus jeunes le découvrent avec un adulte, les plus grands le dévorent tout seuls.</p>
     </div>
     <div class="card" id="contact">
