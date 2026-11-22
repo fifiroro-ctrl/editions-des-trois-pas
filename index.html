@@ -68,6 +68,36 @@ nav a{text-decoration:none;padding:8px 0}nav a:hover{text-decoration:underline}
 .pq-steps{width:160px;height:80px;margin-top:6px}
 .pq p{margin:14px 0 0;max-width:62ch}.pq-lead{font-size:clamp(19px,2.2vw,22px);font-style:italic;color:var(--vert-f)}
 @media(max-width:600px){.pq{grid-template-columns:minmax(0,1fr)}.pq-steps{width:110px;height:55px}}
+/* boutique */
+.cartbtn{font:500 15px Poppins,sans-serif;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer}
+.cartbtn span{display:inline-grid;place-items:center;min-width:24px;height:24px;margin-left:6px;border-radius:12px;background:var(--vert);color:#fff;font-size:13px}
+.demo{background:#FFF3C4;color:#5A4300;text-align:center;font:500 14px Poppins,sans-serif;padding:8px 16px}
+.price b{color:var(--ink);font-weight:700}
+.panel{position:fixed;inset:0;z-index:20;background:rgba(10,14,20,.45);display:flex;justify-content:flex-end}
+.panel[hidden]{display:none}
+.panel-box{width:min(100%,460px);height:100%;overflow:auto;background:var(--bg);padding:20px clamp(16px,4vw,28px) 40px;box-shadow:-10px 0 30px rgba(0,0,0,.2)}
+.panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.x{font-size:30px;line-height:1;width:44px;height:44px;border:0;background:none;color:var(--ink);cursor:pointer}
+.ligne{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.ligne img{width:52px;border-radius:4px}
+.ligne .t{font:500 15px/1.3 Poppins,sans-serif}.ligne .p{font-size:14px;color:var(--mute)}
+.qte{display:flex;align-items:center;gap:6px}
+.qte button{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:18px;cursor:pointer}
+.qte span{min-width:20px;text-align:center;font-family:Poppins,sans-serif}
+.tot{display:grid;grid-template-columns:1fr auto;gap:4px 12px;margin:16px 0;font-family:Poppins,sans-serif;font-size:15px}
+.tot .big{font-size:19px;font-weight:700}
+#commande h3{margin:18px 0 8px}
+#commande label{display:block;font:500 14px Poppins,sans-serif;margin:10px 0 0}
+#commande input:not([type=checkbox]){display:block;width:100%;margin-top:4px;min-height:44px;padding:8px 12px;font:16px Lora,serif;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink)}
+.f2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 12px}
+.check{display:flex!important;gap:10px;align-items:flex-start;font:15px/1.45 Lora,serif!important;margin-top:16px!important}
+.check input{width:22px;height:22px;flex:none;margin-top:2px}
+.small{font-size:14px;color:var(--mute);margin:10px 0 0}
+.err{color:#B3261E;font-size:15px;min-height:1em}
+.pay{width:100%;min-height:52px;border:0;border-radius:12px;background:var(--vert);color:#fff;font:700 17px Poppins,sans-serif;cursor:pointer;margin-top:6px}
+.pay:disabled{opacity:.6}
+.vide{color:var(--mute);margin:20px 0}
+.legal a{color:inherit}
 /* auteur et contact */
 .duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
 .card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:clamp(20px,3vw,32px)}
@@ -99,8 +129,10 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 2
     <nav aria-label="Sections">
       <a href="#aventures">Aventures</a><a href="#contes">Contes</a><a href="#enquetes">Enquêtes</a><a href="#trois-pas">Les Trois Pas</a><a href="#auteur">L'auteur</a><a href="#contact">Contact</a>
     </nav>
+    <button class="cartbtn" id="cartbtn" type="button" hidden aria-haspopup="dialog" aria-controls="panier">Panier <span id="cartcount">0</span></button>
   </div>
 </header>
+<div class="demo" id="demo" hidden>Démonstration : prix provisoires, aucun paiement réel.</div>
 
 <section class="band hero" id="accueil">
   <div class="wrap">
@@ -206,48 +238,161 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 2
   <div class="wrap">
     <span>© 2026 Éditions des Trois Pas · R. K. Douglas</span>
     <span>Une activité de l'association LMPB</span>
+    <span class="legal"><span id="lienCgv"><a href="cgv.html">Conditions générales de vente</a> · </span><a href="mentions-legales.html">Mentions légales</a> · <a href="confidentialite.html">Confidentialité</a></span>
   </div>
 </footer>
+
+<div class="panel" id="panier" role="dialog" aria-modal="true" aria-labelledby="panier-titre" hidden>
+  <div class="panel-box">
+    <div class="panel-head"><h2 id="panier-titre">Votre panier</h2><button type="button" class="x" id="fermer" aria-label="Fermer le panier">×</button></div>
+    <div id="lignes"></div>
+    <div id="totaux"></div>
+    <form id="commande" novalidate hidden>
+      <h3>Livraison</h3>
+      <div class="f2"><label>Prénom<input name="prenom" autocomplete="given-name" required></label><label>Nom<input name="nom" autocomplete="family-name" required></label></div>
+      <label>E-mail<input name="email" type="email" autocomplete="email" required></label>
+      <label>Adresse<input name="adresse" autocomplete="address-line1" required></label>
+      <label>Complément d'adresse<input name="adresse2" autocomplete="address-line2"></label>
+      <div class="f2"><label>Code postal<input name="cp" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" required></label><label>Ville<input name="ville" autocomplete="address-level2" required></label></div>
+      <p class="small">Livraison en France métropolitaine uniquement, par La Poste.</p>
+      <label class="check"><input type="checkbox" name="cgv" required><span>J'ai lu et j'accepte les <a href="cgv.html" target="_blank" rel="noopener">conditions générales de vente</a>, notamment le droit de rétractation et ses conditions de retour.</span></label>
+      <p class="err" id="err" role="alert"></p>
+      <button class="pay" type="submit" id="payer">Payer</button>
+      <div id="sumup-card"></div>
+    </form>
+    <div id="merci" hidden></div>
+  </div>
+</div>
 
 <script>
 {
   const books = {
     aventures: [
-      {t:"Ruby et la lumière du phare", n:"Tome 1", img:"images/aventures-t1.jpg",
+      {id:"aventures-1", t:"Ruby et la lumière du phare", n:"Tome 1", img:"images/aventures-t1.jpg",
        r:"Le jour, Ruby n'a peur de rien. Mais le soir… Pendant une nuit de tempête, le phare s'éteint et un petit oiseau a besoin d'aide. Avec Pixel, Ruby va trouver le courage de rallumer la lumière."},
-      {t:"Ruby et le secret de la crique", n:"Tome 2", img:"images/aventures-t2.jpg",
+      {id:"aventures-2", t:"Ruby et le secret de la crique", n:"Tome 2", img:"images/aventures-t2.jpg",
        r:"C'est l'été à la crique aux Galets. Avec Papa, Pixel et Ollie, Ruby découvre les flaques de marée et le monde sous l'eau. Encore faut-il oser mettre la tête dedans !"}
     ],
     contes: [
-      {t:"La graine du dernier arbre", n:"Tome 1", img:"images/contes-t1.jpg",
+      {id:"contes-1", t:"La graine du dernier arbre", n:"Tome 1", img:"images/contes-t1.jpg",
        r:"À Sèche-Combe, tout est devenu gris. Élio, huit ans, reçoit une graine qui s'allume dans sa main. Pour sauver le village, il devra la porter jusqu'à la Source du monde."},
-      {t:"La fille qui cherchait son ombre", n:"Tome 2", soon:true,
+      {id:"contes-2", t:"La fille qui cherchait son ombre", n:"Tome 2", soon:true,
        r:"Un matin, Lison se réveille sans ombre. Pour la retrouver, elle traverse le Pays des Choses Perdues avec une vieille lanterne bougonne."}
     ],
     enquetes: [
-      {t:"Le secret de la librairie de Port Lantern", n:"Tome 1", img:"images/enquetes-t1.jpg",
+      {id:"enquetes-1", t:"Le secret de la librairie de Port Lantern", n:"Tome 1", img:"images/enquetes-t1.jpg",
        r:"Un samedi matin, une vieille carte disparaît de la librairie de M. Alder. Milo, Nina, Sam et Scout ouvrent l'enquête à travers Port Lantern."},
-      {t:"La cloche sous la mer", n:"Tome 2", img:"images/enquetes-t2.jpg",
+      {id:"enquetes-2", t:"La cloche sous la mer", n:"Tome 2", img:"images/enquetes-t2.jpg",
        r:"Une pièce d'argent frappée d'un oiseau au long cou, la légende d'une cloche engloutie et un brouillard de novembre. Sam devra affronter sa peur de la brume."}
     ]
   };
-  // Liens de paiement SumUp : à remplir quand ils seront créés.
-  const pay = {};
+  /* ---------- Boutique ----------
+     mode : "ferme" (pas de panier), "demo" (panier sans paiement), "ouvert" (paiement SumUp)
+     api  : adresse des fonctions Supabase, à renseigner à l'ouverture
+     Les prix affichés ici ne servent qu'à l'affichage : le serveur recalcule toujours le total. */
+  const BOUTIQUE = {
+    mode: "ferme",
+    api: "",
+    port: 5.00,
+    prix: {"aventures-1": 11.90, "aventures-2": 11.90, "contes-1": 13.90, "enquetes-1": 15.90, "enquetes-2": 15.90}
+  };
+  const all = Object.values(books).flat();
+  const byId = Object.fromEntries(all.map(b => [b.id, b]));
+  const eur = n => n.toFixed(2).replace(".", ",") + " €";
+  const shopOn = BOUTIQUE.mode !== "ferme";
+  if (!shopOn) document.getElementById("lienCgv").hidden = true;
+  let cart = {};
+  try { cart = JSON.parse(localStorage.getItem("panier3pas") || "{}"); } catch (e) { cart = {}; }
+  const save = () => { try { localStorage.setItem("panier3pas", JSON.stringify(cart)); } catch (e) {} };
+
   const card = b => {
     const cover = b.soon
       ? `<div class="soon" aria-hidden="true">À paraître</div>`
       : `<img src="${b.img}" alt="Couverture de « ${b.t} »" loading="lazy" width="641" height="910">`;
-    const link = pay[b.t];
-    const buy = b.soon
-      ? `<span class="price">Bientôt disponible</span>`
-      : link
-        ? `<a class="btn" href="${link}">Commander</a><span class="price">Envoi par La Poste</span>`
-        : `<span class="btn" aria-disabled="true">Commander</span><span class="price">Vente en ligne bientôt</span>`;
+    let buy;
+    if (b.soon) buy = `<span class="price">Bientôt disponible</span>`;
+    else if (shopOn && BOUTIQUE.prix[b.id]) buy = `<button class="btn" type="button" data-add="${b.id}">Ajouter au panier</button><span class="price"><b>${eur(BOUTIQUE.prix[b.id])}</b></span>`;
+    else buy = `<span class="btn" aria-disabled="true">Commander</span><span class="price">Vente en ligne bientôt</span>`;
     return `<article class="book">${cover}<div class="bh"><div class="tome">${b.n}</div><h3>${b.t}</h3></div><p>${b.r}</p><div class="buy">${buy}</div></article>`;
   };
   for (const k of Object.keys(books)) {
     document.getElementById("list-" + k).innerHTML = books[k].map(card).join("");
   }
+
+  const $ = id => document.getElementById(id);
+  const panel = $("panier"), cartbtn = $("cartbtn");
+  if (shopOn) cartbtn.hidden = false;
+  if (BOUTIQUE.mode === "demo") $("demo").hidden = false;
+
+  const count = () => Object.values(cart).reduce((a, q) => a + q, 0);
+  const sub = () => Object.entries(cart).reduce((a, [id, q]) => a + (BOUTIQUE.prix[id] || 0) * q, 0);
+
+  function render() {
+    $("cartcount").textContent = count();
+    const ids = Object.keys(cart).filter(id => cart[id] > 0 && byId[id]);
+    $("lignes").innerHTML = ids.length ? ids.map(id => {
+      const b = byId[id];
+      return `<div class="ligne"><img src="${b.img}" alt=""><div><div class="t">${b.t}</div><div class="p">${eur(BOUTIQUE.prix[id])}</div></div>
+        <div class="qte"><button type="button" data-moins="${id}" aria-label="Retirer un exemplaire">−</button><span>${cart[id]}</span><button type="button" data-plus="${id}" aria-label="Ajouter un exemplaire">+</button></div></div>`;
+    }).join("") : `<p class="vide">Votre panier est vide.</p>`;
+    $("totaux").innerHTML = ids.length ? `<div class="tot"><span>Livres</span><span>${eur(sub())}</span><span>Frais de port (La Poste)</span><span>${eur(BOUTIQUE.port)}</span><span class="big">Total</span><span class="big">${eur(sub() + BOUTIQUE.port)}</span></div>` : "";
+    $("commande").hidden = !ids.length;
+  }
+
+  let lastFocus = null;
+  const open = () => { lastFocus = document.activeElement; panel.hidden = false; render(); $("fermer").focus(); document.body.style.overflow = "hidden"; };
+  const close = () => { panel.hidden = true; document.body.style.overflow = ""; if (lastFocus) lastFocus.focus(); };
+  cartbtn.addEventListener("click", open);
+  $("fermer").addEventListener("click", close);
+  panel.addEventListener("click", e => { if (e.target === panel) close(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && !panel.hidden) close(); });
+
+  document.addEventListener("click", e => {
+    const a = e.target.closest("[data-add],[data-plus],[data-moins]");
+    if (!a) return;
+    const id = a.dataset.add || a.dataset.plus || a.dataset.moins;
+    if (a.dataset.moins) { cart[id] = (cart[id] || 0) - 1; if (cart[id] <= 0) delete cart[id]; }
+    else cart[id] = Math.min((cart[id] || 0) + 1, 20);
+    save(); render();
+    if (a.dataset.add) { a.textContent = "Ajouté ✓"; setTimeout(() => { a.textContent = "Ajouter au panier"; }, 1400); }
+  });
+
+  $("commande").addEventListener("submit", async e => {
+    e.preventDefault();
+    const f = e.target, err = $("err");
+    err.textContent = "";
+    if (!f.checkValidity()) { err.textContent = "Merci de remplir tous les champs et d'accepter les conditions générales de vente."; f.reportValidity(); return; }
+    const client = Object.fromEntries(new FormData(f).entries());
+    delete client.cgv;
+    if (BOUTIQUE.mode !== "ouvert" || !BOUTIQUE.api) {
+      err.textContent = "Démonstration : le paiement n'est pas encore branché. Aucune commande n'a été enregistrée.";
+      return;
+    }
+    const btn = $("payer"); btn.disabled = true; btn.textContent = "Préparation du paiement…";
+    try {
+      const r = await fetch(BOUTIQUE.api + "/creer-paiement", { method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ panier: Object.entries(cart).map(([id, q]) => ({ id, q })), client }) });
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.erreur || "Erreur");
+      await new Promise((ok, ko) => { const sc = document.createElement("script"); sc.src = "https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js"; sc.onload = ok; sc.onerror = ko; document.head.appendChild(sc); });
+      btn.hidden = true;
+      window.SumUpCard.mount({ id: "sumup-card", checkoutId: d.checkout_id, locale: "fr-FR", amount: d.total, currency: "EUR",
+        onResponse: async (type) => {
+          if (type !== "success") return;
+          const v = await fetch(BOUTIQUE.api + "/verifier-paiement", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ commande: d.commande }) }).then(x => x.json());
+          if (v.statut === "payee") {
+            cart = {}; save(); render();
+            f.hidden = true; $("lignes").innerHTML = ""; $("totaux").innerHTML = "";
+            $("merci").hidden = false;
+            $("merci").innerHTML = `<h3>Merci !</h3><p>Votre commande n° ${d.commande} est confirmée. Notez bien ce numéro : il vous sera demandé pour toute question. Les livres partent sous 5 jours ouvrés.</p>`;
+          }
+        } });
+    } catch (x) {
+      btn.disabled = false; btn.textContent = "Payer";
+      err.textContent = "Le paiement n'a pas pu être préparé. Merci de réessayer dans un instant.";
+    }
+  });
+  render();
 }
 </script>
 </body>
