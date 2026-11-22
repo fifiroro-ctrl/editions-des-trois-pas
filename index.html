@@ -88,7 +88,7 @@ nav a{text-decoration:none;padding:8px 0}nav a:hover{text-decoration:underline}
 .tot .big{font-size:19px;font-weight:700}
 #commande h3{margin:18px 0 8px}
 #commande label{display:block;font:500 14px Poppins,sans-serif;margin:10px 0 0}
-#commande input:not([type=checkbox]){display:block;width:100%;margin-top:4px;min-height:44px;padding:8px 12px;font:16px Lora,serif;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink)}
+#commande input:not([type=checkbox]):not([type=radio]){display:block;width:100%;margin-top:4px;min-height:44px;padding:8px 12px;font:16px Lora,serif;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink)}
 .f2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 12px}
 .check{display:flex!important;gap:10px;align-items:flex-start;font:15px/1.45 Lora,serif!important;margin-top:16px!important}
 .check input{width:22px;height:22px;flex:none;margin-top:2px}
@@ -97,6 +97,19 @@ nav a{text-decoration:none;padding:8px 0}nav a:hover{text-decoration:underline}
 .pay{width:100%;min-height:52px;border:0;border-radius:12px;background:var(--vert);color:#fff;font:700 17px Poppins,sans-serif;cursor:pointer;margin-top:6px}
 .pay:disabled{opacity:.6}
 .vide{color:var(--mute);margin:20px 0}
+.modes{border:0;padding:0;margin:0 0 6px;display:grid;gap:10px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.mode{display:flex!important;gap:12px;align-items:flex-start;margin:0!important;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--paper);cursor:pointer;font:400 15px/1.4 Lora,serif!important}
+.mode:has(input:checked){border-color:var(--vert);box-shadow:0 0 0 1px var(--vert)}
+.mode input{width:20px;height:20px;flex:none;margin-top:2px;accent-color:var(--vert)}
+.mode b{font-family:Poppins,sans-serif;font-weight:600}
+.mode .small{margin:0}
+.mp{float:right;font-family:Poppins,sans-serif;font-weight:600}
+.mr-zone{margin-top:10px}
+.mr-zone .MRW-Search{max-width:100%}
+.mr-choisi{margin-top:12px;padding:12px 14px;border-radius:12px;background:#EAF2E6;border:1px solid #BFD5B5;font-size:15px}
+.mr-choisi b{font-family:Poppins,sans-serif}
+.mr-choisi button{margin-top:8px;background:none;border:0;padding:0;color:var(--vert);font:600 14px Poppins,sans-serif;text-decoration:underline;cursor:pointer}
 .legal a{color:inherit}
 /* auteur et contact */
 .duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
@@ -251,12 +264,27 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 2
     <div id="totaux"></div>
     <form id="commande" novalidate hidden>
       <h3>Livraison</h3>
+      <fieldset class="modes">
+        <legend class="sr">Mode de livraison</legend>
+        <label class="mode"><input type="radio" name="livraison" value="relais" checked><span><b>En Point Relais</b> <span class="mp" id="prix-relais"></span><br><span class="small">Mondial Relay, dans le commerce de votre choix</span></span></label>
+        <label class="mode"><input type="radio" name="livraison" value="domicile"><span><b>À domicile</b> <span class="mp" id="prix-domicile"></span><br><span class="small">Colissimo, dans votre boîte aux lettres</span></span></label>
+      </fieldset>
       <div class="f2"><label>Prénom<input name="prenom" autocomplete="given-name" required></label><label>Nom<input name="nom" autocomplete="family-name" required></label></div>
       <label>E-mail<input name="email" type="email" autocomplete="email" required></label>
-      <label>Adresse<input name="adresse" autocomplete="address-line1" required></label>
-      <label>Complément d'adresse<input name="adresse2" autocomplete="address-line2"></label>
-      <div class="f2"><label>Code postal<input name="cp" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" required></label><label>Ville<input name="ville" autocomplete="address-level2" required></label></div>
-      <p class="small">Livraison en France métropolitaine uniquement, par La Poste.</p>
+      <label><span id="tel-label">Téléphone portable</span><input name="telephone" type="tel" autocomplete="tel" inputmode="tel" pattern="\+?[0-9 .]{10,17}" required></label>
+      <div id="bloc-relais">
+        <p class="small">Mondial Relay vous prévient par SMS quand votre colis est arrivé.</p>
+        <div id="mr-choisi" class="mr-choisi" hidden></div>
+        <div id="Zone_Widget" class="mr-zone"></div>
+        <input type="hidden" id="Target_Widget">
+        <p class="small" id="mr-info">Chargement de la carte des points relais…</p>
+      </div>
+      <div id="bloc-domicile" hidden>
+        <label>Adresse<input name="adresse" autocomplete="address-line1" required disabled></label>
+        <label>Complément d'adresse<input name="adresse2" autocomplete="address-line2" disabled></label>
+        <div class="f2"><label>Code postal<input name="cp" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" required disabled></label><label>Ville<input name="ville" autocomplete="address-level2" required disabled></label></div>
+      </div>
+      <p class="small">Livraison en France métropolitaine uniquement.</p>
       <label class="check"><input type="checkbox" name="cgv" required><span>J'ai lu et j'accepte les <a href="cgv.html" target="_blank" rel="noopener">conditions générales de vente</a>, notamment le droit de rétractation et ses conditions de retour.</span></label>
       <p class="err" id="err" role="alert"></p>
       <button class="pay" type="submit" id="payer">Payer</button>
@@ -295,7 +323,10 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 2
   const BOUTIQUE = {
     mode: "ferme",
     api: "",
-    port: 5.00,
+    /* Frais de port pour 1, 2, 3 livres et plus (même grille que le serveur) */
+    frais: { relais: [5.00, 5.00, 7.00], domicile: [6.50, 8.50, 10.00] },
+    /* Code enseigne Mondial Relay : "BDTEST  " = code de test public, à remplacer par celui de LMPB */
+    enseigneMR: "BDTEST  ",
     prix: {"aventures-1": 11.90, "aventures-2": 11.90, "contes-1": 13.90, "enquetes-1": 15.90, "enquetes-2": 15.90}
   };
   const all = Object.values(books).flat();
@@ -328,6 +359,64 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 2
 
   const count = () => Object.values(cart).reduce((a, q) => a + q, 0);
   const sub = () => Object.entries(cart).reduce((a, [id, q]) => a + (BOUTIQUE.prix[id] || 0) * q, 0);
+  const modeLiv = () => (document.querySelector('input[name="livraison"]:checked') || {}).value || "relais";
+  const fraisPour = (m, n) => n ? BOUTIQUE.frais[m][Math.min(n, 3) - 1] : 0;
+  let relais = null;
+
+  /* Point relais : chargement à la demande du sélecteur Mondial Relay */
+  const charge = (src, css) => new Promise((ok, ko) => {
+    const el = document.createElement(css ? "link" : "script");
+    if (css) { el.rel = "stylesheet"; el.href = src; } else { el.src = src; }
+    el.onload = ok; el.onerror = ko; document.head.appendChild(el);
+  });
+  let mrPret = null;
+  function chargeMR() {
+    if (!mrPret) mrPret = (async () => {
+      await charge("https://unpkg.com/leaflet@1.9.4/dist/leaflet.css", true);
+      if (!window.jQuery) await charge("https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js");
+      await charge("https://unpkg.com/leaflet@1.9.4/dist/leaflet.js");
+      await charge("https://widget.mondialrelay.com/parcelshop-picker/jquery.plugin.mondialrelay.parcelshoppicker.min.js");
+    })();
+    return mrPret;
+  }
+  let mrMonte = false;
+  async function monteMR() {
+    if (mrMonte || modeLiv() !== "relais" || $("commande").hidden) return;
+    mrMonte = true;
+    try {
+      await chargeMR();
+      window.jQuery("#Zone_Widget").MR_ParcelShopPicker({
+        Target: "#Target_Widget", Brand: BOUTIQUE.enseigneMR, Country: "FR", PostCode: "",
+        ColLivMod: "24R", NbResults: "7", Responsive: true, ShowResultsOnMap: true,
+        OnParcelShopSelected: d => {
+          relais = { id: d.ID, nom: d.Nom, adresse: [d.Adresse1, d.Adresse2].filter(Boolean).join(", "), cp: d.CP, ville: d.Ville };
+          montreRelais();
+        }
+      });
+      $("mr-info").textContent = "Indiquez votre code postal puis choisissez un point relais dans la liste ou sur la carte.";
+    } catch (x) {
+      mrMonte = false;
+      $("mr-info").textContent = "La carte des points relais n'a pas pu se charger. Vérifiez votre connexion ou choisissez la livraison à domicile.";
+    }
+  }
+  function montreRelais() {
+    const z = $("mr-choisi");
+    if (!relais) { z.hidden = true; $("Zone_Widget").hidden = false; return; }
+    z.hidden = false; $("Zone_Widget").hidden = true;
+    const esc = t => String(t || "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+    z.innerHTML = `Point relais choisi :<br><b>${esc(relais.nom)}</b><br>${esc(relais.adresse)}<br>${esc(relais.cp)} ${esc(relais.ville)}<br><button type="button" id="mr-changer">Changer de point relais</button>`;
+    $("mr-changer").addEventListener("click", () => { relais = null; montreRelais(); });
+  }
+  function basculeMode() {
+    const dom = modeLiv() === "domicile";
+    $("bloc-relais").hidden = dom; $("bloc-domicile").hidden = !dom;
+    $("bloc-domicile").querySelectorAll("input").forEach(i => { i.disabled = !dom; });
+    const tel = document.querySelector('input[name="telephone"]');
+    tel.required = !dom;
+    $("tel-label").textContent = dom ? "Téléphone (facultatif)" : "Téléphone portable";
+    render(); monteMR();
+  }
+  document.querySelectorAll('input[name="livraison"]').forEach(r => r.addEventListener("change", basculeMode));
 
   function render() {
     $("cartcount").textContent = count();
@@ -337,12 +426,15 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 2
       return `<div class="ligne"><img src="${b.img}" alt=""><div><div class="t">${b.t}</div><div class="p">${eur(BOUTIQUE.prix[id])}</div></div>
         <div class="qte"><button type="button" data-moins="${id}" aria-label="Retirer un exemplaire">−</button><span>${cart[id]}</span><button type="button" data-plus="${id}" aria-label="Ajouter un exemplaire">+</button></div></div>`;
     }).join("") : `<p class="vide">Votre panier est vide.</p>`;
-    $("totaux").innerHTML = ids.length ? `<div class="tot"><span>Livres</span><span>${eur(sub())}</span><span>Frais de port (La Poste)</span><span>${eur(BOUTIQUE.port)}</span><span class="big">Total</span><span class="big">${eur(sub() + BOUTIQUE.port)}</span></div>` : "";
+    const n = count(), m = modeLiv(), port = fraisPour(m, n);
+    $("totaux").innerHTML = ids.length ? `<div class="tot"><span>Livres</span><span>${eur(sub())}</span><span>Livraison ${m === "relais" ? "en Point Relais" : "à domicile"}</span><span>${eur(port)}</span><span class="big">Total</span><span class="big">${eur(sub() + port)}</span></div>` : "";
+    $("prix-relais").textContent = n ? eur(fraisPour("relais", n)) : "";
+    $("prix-domicile").textContent = n ? eur(fraisPour("domicile", n)) : "";
     $("commande").hidden = !ids.length;
   }
 
   let lastFocus = null;
-  const open = () => { lastFocus = document.activeElement; panel.hidden = false; render(); $("fermer").focus(); document.body.style.overflow = "hidden"; };
+  const open = () => { lastFocus = document.activeElement; panel.hidden = false; render(); monteMR(); $("fermer").focus(); document.body.style.overflow = "hidden"; };
   const close = () => { panel.hidden = true; document.body.style.overflow = ""; if (lastFocus) lastFocus.focus(); };
   cartbtn.addEventListener("click", open);
   $("fermer").addEventListener("click", close);
@@ -364,8 +456,10 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 2
     const f = e.target, err = $("err");
     err.textContent = "";
     if (!f.checkValidity()) { err.textContent = "Merci de remplir tous les champs et d'accepter les conditions générales de vente."; f.reportValidity(); return; }
+    if (modeLiv() === "relais" && !relais) { err.textContent = "Merci de choisir votre point relais sur la carte ou dans la liste."; return; }
     const client = Object.fromEntries(new FormData(f).entries());
     delete client.cgv;
+    if (client.livraison === "relais") client.relais = relais;
     if (BOUTIQUE.mode !== "ouvert" || !BOUTIQUE.api) {
       err.textContent = "Démonstration : le paiement n'est pas encore branché. Aucune commande n'a été enregistrée.";
       return;
