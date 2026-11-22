@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Éditions des Trois Pas</title>
+<meta name="description" content="Éditions des Trois Pas : trois collections d'histoires pour les enfants de 5 à 12 ans, par R. K. Douglas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE  : chaleureux, simple, pour des parents qui choisissent un livre pour un enfant.
+   IDEA   : un chemin de trois pierres de gué, une par âge : 5, 7 puis 9 ans. Trois pas pour grandir.
+   PICTURE: une colline dessinée où trois pierres colorées mènent à un livre ouvert qui brille.
+   COLOUR and TYPE : papier blanc chaud, encre sombre ; jaune Aventures, vert Contes, bleu nuit Enquêtes ; Poppins pour les titres, Lora pour le texte, comme dans les livres.
+   LAYOUT : bandeau d'accueil avec le dessin, puis une bande par collection, l'auteur et le contact. */
+:root{color-scheme:light dark;
+--bg:light-dark(#FBF8F1,#121821);--paper:light-dark(#FFFFFF,#1B2330);--ink:light-dark(#1F2328,#ECE7DC);--mute:light-dark(#5A5F66,#A9B0BA);
+--line:light-dark(#E6DFD0,#2C3644);
+--jaune:#F2B705;--jaune-f:light-dark(#8A5F00,#F6CB4E);--vert:#3E7D4F;--vert-f:light-dark(#2E6B3F,#7FC191);--nuit:#1E2C4F;--nuit-f:light-dark(#1E2C4F,#9FB3E6)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 Lora,Georgia,serif;overflow-x:clip}
+h1,h2,h3{font-family:Poppins,system-ui,sans-serif;line-height:1.08;text-wrap:balance;margin:0}
+h1{font-size:clamp(34px,6vw,52px)}h2{font-size:clamp(28px,4vw,38px)}h3{font-size:19px;line-height:1.25}
+a{color:inherit}
+.band{padding:clamp(32px,5vw,72px) max(5vw,16px)}
+.wrap{max-width:1180px;margin:0 auto}
+html{scroll-padding-top:72px;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.glow{animation:none!important}}
+/* navigation */
+header{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 20px;padding:12px max(5vw,16px)}
+.logo{font-family:Poppins,sans-serif;font-weight:700;font-size:18px;text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo svg{width:34px;height:22px}
+nav{display:flex;flex-wrap:wrap;gap:4px 18px;font-family:Poppins,sans-serif;font-size:15px}
+nav a{text-decoration:none;padding:8px 0}nav a:hover{text-decoration:underline}
+/* accueil */
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(24px,4vw,56px);align-items:center}
+.hero p.lead{font-size:clamp(18px,2.2vw,21px);color:var(--mute);margin:18px 0 26px;max-width:34em}
+.steps{display:flex;flex-wrap:wrap;gap:10px}
+.step{display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:var(--paper);border:1px solid var(--line);font-family:Poppins,sans-serif;font-size:15px;text-decoration:none;min-height:44px}
+.dot{width:14px;height:14px;border-radius:50%;flex:none}
+.fig{position:relative;aspect-ratio:6/5}
+.fig svg{position:absolute;inset:0;width:100%;height:100%}
+.glow{animation:glow 3.2s ease-in-out infinite;transform-origin:center}
+@keyframes glow{50%{opacity:.55}}
+/* collections */
+.coll{border-top:1px solid var(--line)}
+.coll-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px;margin-bottom:28px}
+.coll-head p{margin:10px 0 0;color:var(--mute);max-width:40em}
+.age{font-family:Poppins,sans-serif;font-weight:700;font-size:15px;padding:8px 16px;border-radius:999px;color:#fff;white-space:nowrap}
+.books{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:24px}
+.book{display:grid;grid-template-columns:120px minmax(0,1fr);gap:18px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px}
+.book img,.soon{width:120px;aspect-ratio:641/910;border-radius:6px;box-shadow:0 6px 16px rgba(0,0,0,.18);display:block;object-fit:cover}
+.soon{display:grid;place-items:center;text-align:center;padding:10px;font-size:13px;font-style:italic;color:var(--mute);background:repeating-linear-gradient(135deg,var(--bg) 0 8px,var(--paper) 8px 16px);border:1px dashed var(--line);box-shadow:none}
+.tome{font-family:Poppins,sans-serif;font-size:13px;color:var(--mute);margin-bottom:4px}
+.book p{margin:8px 0 12px;font-size:15.5px;line-height:1.5}
+.buy{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-family:Poppins,sans-serif;font-size:14px}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:10px;border:0;font:inherit;font-weight:500;color:#fff;cursor:pointer;text-decoration:none}
+.btn[aria-disabled=true]{opacity:.55;cursor:default}
+.price{color:var(--mute);white-space:nowrap}
+.j .age,.j .btn{background:var(--jaune);color:#2A1F00}.j h2{color:var(--jaune-f)}
+.v .age,.v .btn{background:var(--vert)}.v h2{color:var(--vert-f)}
+.n .age,.n .btn{background:var(--nuit)}.n h2{color:var(--nuit-f)}
+/* auteur et contact */
+.duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:clamp(20px,3vw,32px)}
+.card p{margin:12px 0 0}
+.mail{font-family:Poppins,sans-serif;font-size:17px;overflow-wrap:anywhere}
+footer{border-top:1px solid var(--line);color:var(--mute);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px}
+@media(max-width:760px){.hero .wrap,.duo{grid-template-columns:minmax(0,1fr)}.fig{order:-1;max-width:520px}}
+@media(max-width:420px){.book{grid-template-columns:96px minmax(0,1fr);gap:14px}.book img,.soon{width:96px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="#accueil" aria-label="Éditions des Trois Pas, accueil">
+      <svg viewBox="0 0 34 22" aria-hidden="true"><ellipse cx="6" cy="17" rx="5" ry="3.4" fill="#F2B705"/><ellipse cx="17" cy="11" rx="5" ry="3.4" fill="#3E7D4F"/><ellipse cx="28" cy="5" rx="5" ry="3.4" fill="#1E2C4F"/></svg>
+      Éditions des Trois Pas
+    </a>
+    <nav aria-label="Sections">
+      <a href="#aventures">Aventures</a><a href="#contes">Contes</a><a href="#enquetes">Enquêtes</a><a href="#auteur">L'auteur</a><a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="band hero" id="accueil">
+  <div class="wrap">
+    <div>
+      <h1>Des histoires pour grandir, pas à pas</h1>
+      <p class="lead">Trois collections pour accompagner les enfants de 5 à 12 ans. Des héros qui ont peur parfois, qui doutent souvent et qui trouvent toujours le courage d'avancer.</p>
+      <div class="steps">
+        <a class="step" href="#aventures"><span class="dot" style="background:var(--jaune)"></span>Dès 5 ans · Aventures</a>
+        <a class="step" href="#contes"><span class="dot" style="background:var(--vert)"></span>Dès 7 ans · Contes</a>
+        <a class="step" href="#enquetes"><span class="dot" style="background:var(--nuit)"></span>Dès 9 ans · Enquêtes</a>
+      </div>
+    </div>
+    <div class="fig" role="img" aria-label="Un chemin de trois pierres, jaune, verte et bleu nuit, monte une colline jusqu'à un livre ouvert qui brille.">
+      <svg viewBox="0 0 600 500" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="ciel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7E7C6"/><stop offset="1" stop-color="#FBF3E2"/></linearGradient>
+          <linearGradient id="colline" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FBF8E"/><stop offset="1" stop-color="#5E9A63"/></linearGradient>
+          <radialGradient id="halo"><stop offset="0" stop-color="#FFF6C8"/><stop offset="1" stop-color="#FFF6C8" stop-opacity="0"/></radialGradient>
+        </defs>
+        <rect width="600" height="500" rx="28" fill="url(#ciel)"/>
+        <circle cx="470" cy="110" r="46" fill="#FFF1B8"/>
+        <path d="M0 330 C120 260 240 300 330 250 C420 200 500 210 600 170 L600 500 L0 500Z" fill="#B9D7AE"/>
+        <path d="M0 390 C140 330 260 380 380 330 C470 292 540 300 600 280 L600 500 L0 500Z" fill="url(#colline)"/>
+        <path d="M90 480 C170 430 230 420 300 380 C360 345 400 300 440 250" fill="none" stroke="#E9DCC0" stroke-width="40" stroke-linecap="round" opacity=".85"/>
+        <g>
+          <ellipse cx="150" cy="448" rx="46" ry="18" fill="#00000022"/><ellipse cx="150" cy="440" rx="46" ry="20" fill="#F2B705"/><ellipse cx="144" cy="434" rx="26" ry="7" fill="#FFE07A"/>
+          <ellipse cx="290" cy="392" rx="40" ry="16" fill="#00000022"/><ellipse cx="290" cy="385" rx="40" ry="17" fill="#3E7D4F"/><ellipse cx="284" cy="380" rx="22" ry="6" fill="#6FAE7E"/>
+          <ellipse cx="395" cy="318" rx="34" ry="13" fill="#00000022"/><ellipse cx="395" cy="312" rx="34" ry="14" fill="#1E2C4F"/><ellipse cx="390" cy="308" rx="18" ry="5" fill="#4A5E8F"/>
+        </g>
+        <circle class="glow" cx="470" cy="225" r="80" fill="url(#halo)"/>
+        <g transform="translate(470 232)">
+          <path d="M-58 0 Q-30 -16 0 -6 Q30 -16 58 0 L58 14 Q30 2 0 12 Q-30 2 -58 14Z" fill="#7A5230"/>
+          <path d="M-54 -2 Q-28 -18 -2 -8 L-2 8 Q-28 -4 -54 8Z" fill="#FFFDF5"/>
+          <path d="M54 -2 Q28 -18 2 -8 L2 8 Q28 -4 54 8Z" fill="#FFFDF5"/>
+          <path d="M-44 -2 Q-26 -10 -10 -5 M-44 3 Q-26 -5 -10 0 M10 -5 Q26 -10 44 -2 M10 0 Q26 -5 44 3" stroke="#C9BFA8" stroke-width="1.6" fill="none"/>
+        </g>
+        <g fill="#2E6B3F"><path d="M60 300 l14 -40 l14 40z"/><path d="M84 312 l12 -34 l12 34z"/><path d="M540 250 l14 -44 l14 44z"/></g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="band coll j" id="aventures">
+  <div class="wrap">
+    <div class="coll-head">
+      <div><h2>Les aventures de Lantern Bay</h2><p>Ruby, son chien Pixel et Ollie le cormoran vivent à la ferme des Goélands, au bord de la baie. À chaque tome, une peur apprivoisée.</p></div>
+      <span class="age">Dès 5 ans</span>
+    </div>
+    <div class="books" id="list-aventures"></div>
+  </div>
+</section>
+
+<section class="band coll v" id="contes">
+  <div class="wrap">
+    <div class="coll-head">
+      <div><h2>Les Contes des Trois Pas</h2><p>Des contes merveilleux où un enfant part sur un chemin inconnu et revient grandi.</p></div>
+      <span class="age">Dès 7 ans</span>
+    </div>
+    <div class="books" id="list-contes"></div>
+  </div>
+</section>
+
+<section class="band coll n" id="enquetes">
+  <div class="wrap">
+    <div class="coll-head">
+      <div><h2>Les enquêtes de Lantern Bay</h2><p>Milo, Nina, Sam et leur chien Scout mènent l'enquête dans les ruelles brumeuses de Port Lantern.</p></div>
+      <span class="age">Dès 9 ans</span>
+    </div>
+    <div class="books" id="list-enquetes"></div>
+  </div>
+</section>
+
+<section class="band coll">
+  <div class="wrap duo">
+    <div class="card" id="auteur">
+      <h2>R. K. Douglas</h2>
+      <p>R. K. Douglas écrit des histoires pour aider les enfants à apprivoiser leurs peurs et leurs émotions : la peur du noir, celle de l'eau, celle de ne pas être à la hauteur, l'envie de tout garder pour soi.</p>
+      <p>Chaque livre se lit seul ou à deux. Les plus jeunes le découvrent avec un adulte, les plus grands le dévorent tout seuls.</p>
+    </div>
+    <div class="card" id="contact">
+      <h2>Nous écrire</h2>
+      <p>Une question, une commande pour une école ou une bibliothèque, un mot pour l'auteur ?</p>
+      <p class="mail">contact@editions-des-trois-pas.fr</p>
+    </div>
+  </div>
+</section>
+
+<footer class="band">
+  <div class="wrap">
+    <span>© 2026 Éditions des Trois Pas · R. K. Douglas</span>
+    <span>Une activité de l'association LMPB</span>
+  </div>
+</footer>
+
+<script>
+{
+  const books = {
+    aventures: [
+      {t:"Ruby et la lumière du phare", n:"Tome 1", img:"images/aventures-t1.jpg",
+       r:"Le jour, Ruby n'a peur de rien. Mais le soir… Pendant une nuit de tempête, le phare s'éteint et un petit oiseau a besoin d'aide. Avec Pixel, Ruby va trouver le courage de rallumer la lumière."},
+      {t:"Ruby et le secret de la crique", n:"Tome 2", img:"images/aventures-t2.jpg",
+       r:"C'est l'été à la crique aux Galets. Avec Papa, Pixel et Ollie, Ruby découvre les flaques de marée et le monde sous l'eau. Encore faut-il oser mettre la tête dedans !"}
+    ],
+    contes: [
+      {t:"La graine du dernier arbre", n:"Tome 1", img:"images/contes-t1.jpg",
+       r:"À Sèche-Combe, tout est devenu gris. Élio, huit ans, reçoit une graine qui s'allume dans sa main. Pour sauver le village, il devra la porter jusqu'à la Source du monde."},
+      {t:"La fille qui cherchait son ombre", n:"Tome 2", soon:true,
+       r:"Un matin, Lison se réveille sans ombre. Pour la retrouver, elle traverse le Pays des Choses Perdues avec une vieille lanterne bougonne."}
+    ],
+    enquetes: [
+      {t:"Le secret de la librairie de Port Lantern", n:"Tome 1", img:"images/enquetes-t1.jpg",
+       r:"Un samedi matin, une vieille carte disparaît de la librairie de M. Alder. Milo, Nina, Sam et Scout ouvrent l'enquête à travers Port Lantern."},
+      {t:"La cloche sous la mer", n:"Tome 2", img:"images/enquetes-t2.jpg",
+       r:"Une pièce d'argent frappée d'un oiseau au long cou, la légende d'une cloche engloutie et un brouillard de novembre. Sam devra affronter sa peur de la brume."}
+    ]
+  };
+  // Liens de paiement SumUp : à remplir quand ils seront créés.
+  const pay = {};
+  const card = b => {
+    const cover = b.soon
+      ? `<div class="soon" aria-hidden="true">À paraître</div>`
+      : `<img src="${b.img}" alt="Couverture de « ${b.t} »" loading="lazy" width="641" height="910">`;
+    const link = pay[b.t];
+    const buy = b.soon
+      ? `<span class="price">Bientôt disponible</span>`
+      : link
+        ? `<a class="btn" href="${link}">Commander</a><span class="price">Envoi par La Poste</span>`
+        : `<span class="btn" aria-disabled="true">Commander</span><span class="price">Vente en ligne bientôt</span>`;
+    return `<article class="book">${cover}<div><div class="tome">${b.n}</div><h3>${b.t}</h3><p>${b.r}</p><div class="buy">${buy}</div></div></article>`;
+  };
+  for (const k of Object.keys(books)) {
+    document.getElementById("list-" + k).innerHTML = books[k].map(card).join("");
+  }
+}
+</script>
+</body>
+</html>
