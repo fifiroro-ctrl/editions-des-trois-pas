@@ -32,7 +32,7 @@ html{scroll-padding-top:72px;scroll-behavior:smooth}
 header{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
 header .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 20px;padding:12px max(5vw,16px)}
 .logo{font-family:Poppins,sans-serif;font-weight:700;font-size:18px;text-decoration:none;display:flex;align-items:center;gap:10px}
-.logo svg{width:34px;height:22px}
+.logo img{width:58px;height:36px}
 nav{display:flex;flex-wrap:wrap;gap:4px 18px;font-family:Poppins,sans-serif;font-size:15px}
 nav a{text-decoration:none;padding:8px 0}nav a:hover{text-decoration:underline}
 /* accueil */
@@ -65,9 +65,9 @@ nav a{text-decoration:none;padding:8px 0}nav a:hover{text-decoration:underline}
 .v .age,.v .btn{background:var(--vert)}.v h2{color:var(--vert-f)}
 .n .age,.n .btn{background:var(--nuit)}.n h2{color:var(--nuit-f)}
 .pq{display:grid;grid-template-columns:160px minmax(0,1fr);gap:clamp(20px,4vw,48px);align-items:start;max-width:860px}
-.pq-steps{width:160px;height:80px;margin-top:6px}
+.pq-steps{width:160px;height:100px;margin-top:6px}
 .pq p{margin:14px 0 0;max-width:62ch}.pq-lead{font-size:clamp(19px,2.2vw,22px);font-style:italic;color:var(--vert-f)}
-@media(max-width:600px){.pq{grid-template-columns:minmax(0,1fr)}.pq-steps{width:110px;height:55px}}
+@media(max-width:600px){.pq{grid-template-columns:minmax(0,1fr)}.pq-steps{width:110px;height:69px}}
 /* boutique */
 .cartbtn{font:500 15px Poppins,sans-serif;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer}
 .cartbtn span{display:inline-grid;place-items:center;min-width:24px;height:24px;margin-left:6px;border-radius:12px;background:var(--vert);color:#fff;font-size:13px}
@@ -117,13 +117,15 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 2
  .coll-head{align-items:flex-start}
 }
 </style>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body>
 
 <header>
   <div class="wrap">
     <a class="logo" href="#accueil" aria-label="Éditions des Trois Pas, accueil">
-      <svg viewBox="0 0 34 22" aria-hidden="true"><ellipse cx="6" cy="17" rx="5" ry="3.4" fill="#F2B705"/><ellipse cx="17" cy="11" rx="5" ry="3.4" fill="#3E7D4F"/><ellipse cx="28" cy="5" rx="5" ry="3.4" fill="#1E2C4F"/></svg>
+      <img src="images/logo-icone.svg" alt="" width="58" height="36">
       Éditions des Trois Pas
     </a>
     <nav aria-label="Sections">
@@ -208,7 +210,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 2
 <section class="band coll pourquoi" id="trois-pas">
   <div class="wrap">
     <div class="pq">
-      <svg class="pq-steps" viewBox="0 0 120 60" aria-hidden="true"><ellipse cx="18" cy="48" rx="15" ry="7" fill="#F2B705"/><ellipse cx="60" cy="32" rx="15" ry="7" fill="#3E7D4F"/><ellipse cx="102" cy="14" rx="15" ry="7" fill="#1E2C4F"/></svg>
+      <img class="pq-steps" src="images/logo-relief.svg" alt="">
       <div>
         <h2>Pourquoi les Trois Pas ?</h2>
         <p class="pq-lead">On ne grandit pas d'un seul coup. On grandit pas à pas.</p>
