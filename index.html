@@ -50,9 +50,10 @@ nav a{text-decoration:none;padding:8px 0}nav a:hover{text-decoration:underline}
 .coll-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px;margin-bottom:28px}
 .coll-head p{margin:10px 0 0;color:var(--mute);max-width:40em}
 .age{font-family:Poppins,sans-serif;font-weight:700;font-size:15px;padding:8px 16px;border-radius:999px;color:#fff;white-space:nowrap}
-.books{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:24px}
-.book{display:grid;grid-template-columns:120px minmax(0,1fr);gap:18px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px}
-.book img,.soon{width:120px;aspect-ratio:641/910;border-radius:6px;box-shadow:0 6px 16px rgba(0,0,0,.18);display:block;object-fit:cover}
+.books{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:24px}
+.book{display:grid;grid-template-columns:132px minmax(0,1fr);grid-template-areas:"c h" "c p" "c b";grid-template-rows:auto auto 1fr;column-gap:18px;align-items:start;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px}
+.book>img,.book>.soon{grid-area:c;align-self:start;width:132px;height:auto;aspect-ratio:641/910;border-radius:6px;box-shadow:0 6px 16px rgba(0,0,0,.18);display:block;object-fit:contain}
+.bh{grid-area:h}.book>p{grid-area:p}.book>.buy{grid-area:b;align-self:end}
 .soon{display:grid;place-items:center;text-align:center;padding:10px;font-size:13px;font-style:italic;color:var(--mute);background:repeating-linear-gradient(135deg,var(--bg) 0 8px,var(--paper) 8px 16px);border:1px dashed var(--line);box-shadow:none}
 .tome{font-family:Poppins,sans-serif;font-size:13px;color:var(--mute);margin-bottom:4px}
 .book p{margin:8px 0 12px;font-size:15.5px;line-height:1.5}
@@ -71,7 +72,16 @@ nav a{text-decoration:none;padding:8px 0}nav a:hover{text-decoration:underline}
 footer{border-top:1px solid var(--line);color:var(--mute);font-size:14px}
 footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px}
 @media(max-width:760px){.hero .wrap,.duo{grid-template-columns:minmax(0,1fr)}.fig{order:-1;max-width:520px}}
-@media(max-width:420px){.book{grid-template-columns:96px minmax(0,1fr);gap:14px}.book img,.soon{width:96px}}
+@media(max-width:600px){
+ header{position:static}
+ header .wrap{padding:10px 16px}
+ nav{flex-wrap:nowrap;overflow-x:auto;width:100%;gap:18px;scrollbar-width:none}nav::-webkit-scrollbar{display:none}nav a{flex:none}
+ .book{grid-template-columns:110px minmax(0,1fr);grid-template-areas:"c h" "p p" "b b";grid-template-rows:auto;column-gap:16px}
+ .book>img,.book>.soon{width:110px}
+ .bh{align-self:center}
+ .book>p{margin-top:14px}
+ .coll-head{align-items:flex-start}
+}
 </style>
 </head>
 <body>
@@ -215,7 +225,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 2
       : link
         ? `<a class="btn" href="${link}">Commander</a><span class="price">Envoi par La Poste</span>`
         : `<span class="btn" aria-disabled="true">Commander</span><span class="price">Vente en ligne bientôt</span>`;
-    return `<article class="book">${cover}<div><div class="tome">${b.n}</div><h3>${b.t}</h3><p>${b.r}</p><div class="buy">${buy}</div></div></article>`;
+    return `<article class="book">${cover}<div class="bh"><div class="tome">${b.n}</div><h3>${b.t}</h3></div><p>${b.r}</p><div class="buy">${buy}</div></article>`;
   };
   for (const k of Object.keys(books)) {
     document.getElementById("list-" + k).innerHTML = books[k].map(card).join("");
