@@ -306,7 +306,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 2
     contes: [
       {id:"contes-1", t:"La graine du dernier arbre", n:"Tome 1", img:"images/contes-t1.jpg",
        r:"À Sèche-Combe, tout est devenu gris. Élio, huit ans, reçoit une graine qui s'allume dans sa main. Pour sauver le village, il devra la porter jusqu'à la Source du monde."},
-      {id:"contes-2", t:"La fille qui cherchait son ombre", n:"Tome 2", soon:true,
+      {id:"contes-2", t:"La fille qui cherchait son ombre", n:"Tome 2", img:"images/contes-t2.jpg", soon:true,
        r:"Un matin, Lison se réveille sans ombre. Pour la retrouver, elle traverse le Pays des Choses Perdues avec une vieille lanterne bougonne."}
     ],
     enquetes: [
@@ -339,7 +339,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 2
   const save = () => { try { localStorage.setItem("panier3pas", JSON.stringify(cart)); } catch (e) {} };
 
   const card = b => {
-    const cover = b.soon
+    const cover = b.soon && !b.img
       ? `<div class="soon" aria-hidden="true">À paraître</div>`
       : `<img src="${b.img}" alt="Couverture de « ${b.t} »" loading="lazy" width="641" height="910">`;
     let buy;
